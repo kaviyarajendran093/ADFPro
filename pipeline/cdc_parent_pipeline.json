@@ -67,15 +67,15 @@
 		"parameters": {
 			"schema": {
 				"type": "string",
-				"defaultValue": "source"
+				"defaultValue": "@trigger.parameters.schema"
 			},
 			"table": {
 				"type": "string",
-				"defaultValue": "Orders"
+				"defaultValue": "@trigger.parameters.table"
 			},
 			"backdate": {
 				"type": "string",
-				"defaultValue": "@null"
+				"defaultValue": "@trigger.parameters.backdate"
 			}
 		},
 		"annotations": [],

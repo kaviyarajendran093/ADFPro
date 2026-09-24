@@ -12,7 +12,7 @@
 				"parameters": {
 					"schema": "source",
 					"table": "Orders",
-					"backdate": "''"
+					"backdate": "@null"
 				}
 			}
 		],
