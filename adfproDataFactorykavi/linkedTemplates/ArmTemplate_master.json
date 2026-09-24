@@ -1,0 +1,112 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "adfproDataFactorykavi"
+		},
+		"adfpro_adls_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'adfpro_adls'"
+		},
+		"adfpro_sql_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'adfpro_sql'"
+		},
+		"adfpro_adls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adfprostoragekavi.dfs.core.windows.net/"
+		},
+		"adfpro_sql_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "adfpro.database.windows.net"
+		},
+		"adfpro_sql_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "adfprodb"
+		},
+		"adfpro_sql_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adfpro"
+		},
+		"ds_rest_ls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://pokeapi.co/api/v2/pokemon"
+		},
+		"cdc_trigger_properties_cdc_parent_pipeline_parameters_schema": {
+			"type": "string",
+			"defaultValue": "source"
+		},
+		"cdc_trigger_properties_cdc_parent_pipeline_parameters_table": {
+			"type": "string",
+			"defaultValue": "Orders"
+		},
+		"cdc_trigger_properties_cdc_parent_pipeline_parameters_backdate": {
+			"type": "string",
+			"defaultValue": "''"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "adfproDataFactorykavi_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"adfpro_adls_accountKey": {
+						"value": "[parameters('adfpro_adls_accountKey')]"
+					},
+					"adfpro_sql_password": {
+						"value": "[parameters('adfpro_sql_password')]"
+					},
+					"adfpro_adls_properties_typeProperties_url": {
+						"value": "[parameters('adfpro_adls_properties_typeProperties_url')]"
+					},
+					"adfpro_sql_properties_typeProperties_server": {
+						"value": "[parameters('adfpro_sql_properties_typeProperties_server')]"
+					},
+					"adfpro_sql_properties_typeProperties_database": {
+						"value": "[parameters('adfpro_sql_properties_typeProperties_database')]"
+					},
+					"adfpro_sql_properties_typeProperties_userName": {
+						"value": "[parameters('adfpro_sql_properties_typeProperties_userName')]"
+					},
+					"ds_rest_ls_properties_typeProperties_url": {
+						"value": "[parameters('ds_rest_ls_properties_typeProperties_url')]"
+					},
+					"cdc_trigger_properties_cdc_parent_pipeline_parameters_schema": {
+						"value": "[parameters('cdc_trigger_properties_cdc_parent_pipeline_parameters_schema')]"
+					},
+					"cdc_trigger_properties_cdc_parent_pipeline_parameters_table": {
+						"value": "[parameters('cdc_trigger_properties_cdc_parent_pipeline_parameters_table')]"
+					},
+					"cdc_trigger_properties_cdc_parent_pipeline_parameters_backdate": {
+						"value": "[parameters('cdc_trigger_properties_cdc_parent_pipeline_parameters_backdate')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

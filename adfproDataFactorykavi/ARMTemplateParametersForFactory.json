@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adfproDataFactorykavi"
+		},
+		"adfpro_adls_accountKey": {
+			"value": ""
+		},
+		"adfpro_sql_password": {
+			"value": ""
+		},
+		"adfpro_adls_properties_typeProperties_url": {
+			"value": "https://adfprostoragekavi.dfs.core.windows.net/"
+		},
+		"adfpro_sql_properties_typeProperties_server": {
+			"value": "adfpro.database.windows.net"
+		},
+		"adfpro_sql_properties_typeProperties_database": {
+			"value": "adfprodb"
+		},
+		"adfpro_sql_properties_typeProperties_userName": {
+			"value": "adfpro"
+		},
+		"ds_rest_ls_properties_typeProperties_url": {
+			"value": "https://pokeapi.co/api/v2/pokemon"
+		},
+		"cdc_trigger_properties_cdc_parent_pipeline_parameters_schema": {
+			"value": "source"
+		},
+		"cdc_trigger_properties_cdc_parent_pipeline_parameters_table": {
+			"value": "Orders"
+		},
+		"cdc_trigger_properties_cdc_parent_pipeline_parameters_backdate": {
+			"value": "''"
+		}
+	}
+}
