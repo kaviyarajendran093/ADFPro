@@ -7,7 +7,8 @@
 		},
 		"parameters": {
 			"p_fileName": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "locations.csv"
 			}
 		},
 		"annotations": [],
