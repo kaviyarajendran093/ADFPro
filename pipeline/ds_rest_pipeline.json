@@ -1,0 +1,186 @@
+{
+	"name": "ds_rest_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "ds_rest_Web",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "GET",
+					"url": {
+						"value": "https://pokeapi.co/api/v2/pokemon",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "ds_rest_Until",
+				"type": "Until",
+				"dependsOn": [
+					{
+						"activity": "set_total_records",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@greaterOrEquals(variables('offset'),variables('total_records'))",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "ds_rest_Copy",
+							"type": "Copy",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"source": {
+									"type": "RestSource",
+									"httpRequestTimeout": "00:01:40",
+									"requestInterval": "00.00:00:00.010",
+									"requestMethod": "GET"
+								},
+								"sink": {
+									"type": "JsonSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "JsonWriteSettings"
+									}
+								},
+								"enableStaging": false
+							},
+							"inputs": [
+								{
+									"referenceName": "ds_rest_api",
+									"type": "DatasetReference",
+									"parameters": {
+										"ds_offset": {
+											"value": "@string(variables('offset'))",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ds_rest_Json",
+									"type": "DatasetReference"
+								}
+							]
+						},
+						{
+							"name": "CalculateNextOffset",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "ds_rest_Copy",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "temp_offset",
+								"value": {
+									"value": "@add(variables('offset'),20)",
+									"type": "Expression"
+								}
+							}
+						},
+						{
+							"name": "UpdateMainOffset",
+							"type": "SetVariable",
+							"dependsOn": [
+								{
+									"activity": "CalculateNextOffset",
+									"dependencyConditions": [
+										"Succeeded"
+									]
+								}
+							],
+							"policy": {
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"variableName": "offset",
+								"value": {
+									"value": "@variables('temp_offset')",
+									"type": "Expression"
+								}
+							}
+						}
+					],
+					"timeout": "0.12:00:00"
+				}
+			},
+			{
+				"name": "set_total_records",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "ds_rest_Web",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "total_records",
+					"value": {
+						"value": "@activity('ds_rest_Web').output.count",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"offset": {
+				"type": "Integer",
+				"defaultValue": 0
+			},
+			"total_records": {
+				"type": "Integer"
+			},
+			"temp_offset": {
+				"type": "Integer",
+				"defaultValue": 0
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-09-24T00:24:07Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

@@ -1,0 +1,15 @@
+{
+	"name": "adfproDataFactorykavi",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "canadacentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "bca28c31-37bb-4133-9834-ed94e1df4351",
+		"tenantId": "9fbd61af-17e0-4adc-90cc-5433c41f1d92"
+	}
+}

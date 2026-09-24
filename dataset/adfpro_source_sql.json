@@ -1,0 +1,16 @@
+{
+	"name": "adfpro_source_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "adfpro_sql",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": ""
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
